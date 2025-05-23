@@ -3,10 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomePage } from './home.page';
 
 const routes: Routes = [
-  {
-    path: '',
-    component: HomePage,
-  }
+  // THIS must be an empty string
+  { path: '', component: HomePage }
 ];
 
 @NgModule({

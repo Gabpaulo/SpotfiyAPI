@@ -1,0 +1,437 @@
+// Folders Dark Theme SCSS for Android
+
+// Color Variables
+$spotify-green: #1db954;
+$spotify-green-hover: #1ed760;
+$dark-bg: #121212;
+$darker-bg: #000000;
+$card-bg: #181818;
+$card-hover: #282828;
+$text-primary: #ffffff;
+$text-secondary: #b3b3b3;
+$text-muted: #535353;
+$border-color: #333333;
+$danger-color: #e22856;
+$danger-hover: #ff4081;
+$warning-color: #ffa726;
+$folder-color: #64b5f6;
+$shadow-dark: rgba(0, 0, 0, 0.5);
+
+// Folders Header Styles
+.folders-header {
+  --background: #{$dark-bg};
+  --border-color: #{$border-color};
+  
+  ion-toolbar {
+    --background: #{$dark-bg};
+    --color: #{$text-primary};
+    --border-color: #{$border-color};
+    
+    ion-title {
+      color: $text-primary;
+      font-weight: 700;
+      font-size: 1.4rem;
+      padding-left: 4px;
+    }
+    
+    ion-buttons[slot="end"] {
+      ion-button {
+        --color: #{$spotify-green};
+        --color-hover: #{$spotify-green-hover};
+        --border-radius: 50%;
+        --padding-start: 8px;
+        --padding-end: 8px;
+        
+        width: 44px;
+        height: 44px;
+        margin-right: 4px;
+        transition: all 0.2s ease;
+        
+        &:hover {
+          --color: #{$spotify-green-hover};
+          transform: scale(1.05);
+        }
+        
+        &:active {
+          transform: scale(0.95);
+        }
+        
+        ion-icon {
+          font-size: 1.5rem;
+        }
+      }
+    }
+  }
+}
+
+// Content Area
+.folders-content {
+  --background: #{$dark-bg};
+  --color: #{$text-primary};
+}
+
+// Folders Container
+.folders-container {
+  padding: 8px 0;
+  
+  ion-list {
+    background: transparent;
+    padding: 0;
+    
+    ion-item {
+      --background: transparent;
+      --color: #{$text-primary};
+      --border-color: #{$border-color};
+      --inner-border-width: 0;
+      --padding-start: 16px;
+      --padding-end: 8px;
+      --min-height: 64px;
+      
+      margin: 4px 12px;
+      border-radius: 12px;
+      transition: all 0.25s ease;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      
+      // Subtle background pattern
+      &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(135deg, transparent 0%, rgba($folder-color, 0.02) 100%);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+      
+      &:hover {
+        --background: #{$card-hover};
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+        
+        &::before {
+          opacity: 1;
+        }
+      }
+      
+      &:active {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      }
+    }
+  }
+}
+
+// Folder Item Specific Styles
+.folder-item {
+  .folder-icon {
+    color: $folder-color;
+    font-size: 2rem;
+    width: 32px;
+    height: 32px;
+    margin-right: 4px;
+    transition: all 0.3s ease;
+  }
+  
+  ion-label {
+    margin-left: 12px;
+    
+    h2 {
+      color: $text-primary;
+      font-weight: 600;
+      font-size: 1.1rem;
+      margin: 0;
+      line-height: 1.3;
+      letter-spacing: 0.01em;
+    }
+  }
+  
+  ion-buttons[slot="end"] {
+    display: flex;
+    gap: 4px;
+    
+    ion-button {
+      --border-radius: 50%;
+      --padding-start: 8px;
+      --padding-end: 8px;
+      
+      width: 40px;
+      height: 40px;
+      transition: all 0.2s ease;
+      
+      &:first-child {
+        --color: #{$warning-color};
+        --color-hover: #{lighten($warning-color, 10%)};
+        
+        &:hover {
+          transform: scale(1.1);
+          --color: #{lighten($warning-color, 10%)};
+        }
+      }
+      
+      &:last-child {
+        --color: #{$danger-color};
+        --color-hover: #{$danger-hover};
+        
+        &:hover {
+          transform: scale(1.1);
+          --color: #{$danger-hover};
+        }
+      }
+      
+      &:active {
+        transform: scale(0.9);
+      }
+      
+      ion-icon {
+        font-size: 1.1rem;
+      }
+    }
+  }
+  
+  // Hover effects
+  &:hover {
+    .folder-icon {
+      color: lighten($folder-color, 15%);
+      transform: scale(1.1);
+    }
+    
+    ion-label h2 {
+      color: lighten($text-primary, 5%);
+    }
+  }
+}
+
+// Empty State Styling
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 80px 32px;
+  height: 60vh;
+  
+  .empty-icon {
+    font-size: 5rem;
+    color: $text-muted;
+    margin-bottom: 24px;
+    opacity: 0.6;
+    animation: float 3s ease-in-out infinite;
+  }
+  
+  p {
+    color: $text-secondary;
+    font-size: 1rem;
+    line-height: 1.5;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
+    
+    ion-icon {
+      color: $spotify-green;
+      font-size: 1.2rem;
+      vertical-align: middle;
+    }
+  }
+}
+
+// Android-specific optimizations
+@media (max-width: 480px) {
+  .folders-header {
+    ion-toolbar {
+      ion-title {
+        font-size: 1.3rem;
+        padding-left: 2px;
+      }
+      
+      ion-buttons[slot="end"] ion-button {
+        width: 40px;
+        height: 40px;
+        margin-right: 2px;
+        
+        ion-icon {
+          font-size: 1.4rem;
+        }
+      }
+    }
+  }
+  
+  .folders-container {
+    padding: 4px 0;
+    
+    ion-list ion-item {
+      margin: 3px 8px;
+      --padding-start: 12px;
+      --padding-end: 6px;
+      --min-height: 60px;
+      border-radius: 10px;
+    }
+  }
+  
+  .folder-item {
+    .folder-icon {
+      font-size: 1.8rem;
+      width: 28px;
+      height: 28px;
+    }
+    
+    ion-label {
+      margin-left: 10px;
+      
+      h2 {
+        font-size: 1rem;
+      }
+    }
+    
+    ion-buttons[slot="end"] {
+      gap: 2px;
+      
+      ion-button {
+        width: 36px;
+        height: 36px;
+        --padding-start: 6px;
+        --padding-end: 6px;
+        
+        ion-icon {
+          font-size: 1rem;
+        }
+      }
+    }
+  }
+  
+  .empty-state {
+    padding: 60px 24px;
+    height: 50vh;
+    
+    .empty-icon {
+      font-size: 4rem;
+      margin-bottom: 20px;
+    }
+    
+    p {
+      font-size: 0.9rem;
+      
+      ion-icon {
+        font-size: 1.1rem;
+      }
+    }
+  }
+}
+
+// Loading State
+.loading-state {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 60px 20px;
+  color: $text-secondary;
+  
+  ion-spinner {
+    --color: #{$folder-color};
+    margin-right: 12px;
+  }
+  
+  span {
+    font-size: 1rem;
+    font-weight: 500;
+  }
+}
+
+// Animations
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes ripple {
+  0% {
+    transform: scale(0);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+.folder-item {
+  animation: fadeInUp 0.4s ease-out;
+  
+  // Add ripple effect for Android feel
+  &::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 5px;
+    height: 5px;
+    background: rgba($folder-color, 0.3);
+    opacity: 0;
+    border-radius: 100%;
+    transform: scale(1) translate(-50%, -50%);
+    transform-origin: 50% 50%;
+  }
+  
+  &:active::after {
+    animation: ripple 0.6s ease-out;
+  }
+}
+
+// Staggered animation for list items
+.folder-item:nth-child(1) { animation-delay: 0.1s; }
+.folder-item:nth-child(2) { animation-delay: 0.15s; }
+.folder-item:nth-child(3) { animation-delay: 0.2s; }
+.folder-item:nth-child(4) { animation-delay: 0.25s; }
+.folder-item:nth-child(5) { animation-delay: 0.3s; }
+.folder-item:nth-child(n+6) { animation-delay: 0.35s; }
+
+// Custom scrollbar for better Android experience
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: $dark-bg;
+}
+
+::-webkit-scrollbar-thumb {
+  background: $border-color;
+  border-radius: 3px;
+  
+  &:hover {
+    background: $text-muted;
+  }
+}
+
+// Focus states for accessibility
+.folder-item:focus-visible {
+  outline: 2px solid $spotify-green;
+  outline-offset: 2px;
+}
+
+ion-button:focus-visible {
+  outline: 2px solid $spotify-green;
+  outline-offset: 2px;
+}

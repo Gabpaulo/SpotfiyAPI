@@ -1,0 +1,62 @@
+<ion-header [translucent]="true" class="search-header">
+  <ion-toolbar>
+    <ion-title>Search Spotify</ion-title>
+    <ion-searchbar
+      class="custom-searchbar"
+      [(ngModel)]="query"
+      (ionInput)="onSearch()"
+      placeholder="Type to search…"
+      show-clear-button="focus">
+    </ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="search-content">
+  <div class="results-container" *ngIf="tracks?.length">
+    <ion-list>
+      <ion-item
+        class="track-item"
+        *ngFor="let t of tracks"
+        (click)="playTrack(t)"
+        lines="full">
+        <ion-thumbnail slot="start">
+          <img [src]="t.album.images[0]?.url || 'assets/placeholder.png'" />
+        </ion-thumbnail>
+        <ion-label>
+          <h2>{{ t.name }}</h2>
+          <p>{{ t.artists[0]?.name }}</p>
+        </ion-label>
+        <ion-button fill="clear" slot="end">
+          <ion-icon name="play"></ion-icon>
+        </ion-button>
+      </ion-item>
+    </ion-list>
+  </div>
+</ion-content>
+
+<ion-footer *ngIf="currentTrack">
+  <ion-toolbar class="mini-player-toolbar">
+    <div class="mini-player">
+      <ion-button fill="clear" (click)="toggle()">
+        <ion-icon [name]="isPlaying ? 'pause' : 'play'"></ion-icon>
+      </ion-button>
+      <div class="track-info">
+        <span>{{ currentTrack.name }}</span>
+        <small>{{ currentTrack.artists[0]?.name }}</small>
+      </div>
+      <!-- hidden fallback audio element -->
+      <audio #audioPlayer playsinline (ended)="toggle()"></audio>
+    </div>
+    <div class="seek-bar">
+      <ion-range
+        min="0"
+        [max]="duration"
+        [value]="currentTime"
+        step="0.1"
+        (ionInput)="onSeek($event)">
+        <ion-label slot="start">{{ formatTime(currentTime) }}</ion-label>
+        <ion-label slot="end">{{ formatTime(duration) }}</ion-label>
+      </ion-range>
+    </div>
+  </ion-toolbar>
+</ion-footer>

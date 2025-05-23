@@ -1,0 +1,110 @@
+<ion-header [translucent]="true" class="folder-detail-header">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/library"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ folder.name }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="folder-detail-content">
+  <!-- Import Local Files -->
+  <div class="section import-section">
+    <div class="section-header">
+      <ion-icon name="file-tray-full" class="section-icon"></ion-icon>
+      <h3>Import Local Files</h3>
+    </div>
+    <div class="section-body">
+      <ion-button expand="block" fill="outline" (click)="fileInput.click()">
+        <ion-icon name="folder-open" slot="start"></ion-icon>
+        Choose Files
+      </ion-button>
+      <input #fileInput type="file" (change)="onFileSelected($event)" multiple hidden />
+    </div>
+  </div>
+
+  <!-- Add from Spotify -->
+  <div class="section spotify-section">
+    <div class="section-header">
+      <ion-icon name="musical-notes" class="section-icon"></ion-icon>
+      <h3>Add from Spotify</h3>
+    </div>
+    <div class="section-body">
+      <ion-searchbar
+        class="custom-searchbar"
+        [(ngModel)]="searchQuery"
+        (ionInput)="searchMusic()"
+        placeholder="Search Spotify…"
+        show-clear-button="focus">
+      </ion-searchbar>
+      <ion-list *ngIf="searchResults.length" class="card-list">
+        <ion-item *ngFor="let t of searchResults" class="card-item">
+          <ion-thumbnail slot="start">
+            <img [src]="t.album.images[0]?.url || 'assets/placeholder.png'" />
+          </ion-thumbnail>
+          <ion-label>
+            <h4>{{ t.name }}</h4>
+            <p>{{ t.artists[0]?.name }}</p>
+          </ion-label>
+          <ion-button slot="end" fill="clear" (click)="addTrack(t)">
+            <ion-icon name="add-circle"></ion-icon>
+          </ion-button>
+        </ion-item>
+      </ion-list>
+    </div>
+  </div>
+
+  <!-- In This Folder -->
+  <div class="section contents-section">
+    <div class="section-header">
+      <ion-icon name="albums" class="section-icon"></ion-icon>
+      <h3>In This Folder</h3>
+    </div>
+    <div class="section-body">
+      <ion-list *ngIf="items.length" class="card-list">
+        <ion-item *ngFor="let i of items" class="card-item">
+          <ion-thumbnail *ngIf="i.thumbnail" slot="start">
+            <img [src]="i.thumbnail" />
+          </ion-thumbnail>
+          <ion-label>
+            <h4>{{ i.name }}</h4>
+            <p *ngIf="i.artists">{{ i.artists.join(', ') }}</p>
+          </ion-label>
+          <ion-button slot="end" fill="clear" (click)="play(i)">
+            <ion-icon name="play"></ion-icon>
+          </ion-button>
+          <ion-button slot="end" color="danger" fill="clear" (click)="remove(i)">
+            <ion-icon name="trash"></ion-icon>
+          </ion-button>
+        </ion-item>
+      </ion-list>
+      <p *ngIf="!items.length" class="empty-state">
+        <ion-icon name="folder-open" class="empty-icon"></ion-icon>
+        This folder is empty.
+      </p>
+    </div>
+  </div>
+</ion-content>
+
+<ion-footer *ngIf="currentTrack" class="mini-player-footer">
+  <ion-toolbar>
+    <div class="mini-player">
+      <ion-button fill="clear" (click)="togglePlayback()">
+        <ion-icon [name]="isPlaying ? 'pause' : 'play'"></ion-icon>
+      </ion-button>
+      <div class="track-info">
+        <span>{{ currentTrack.name }}</span>
+        <small>{{ currentTrack.artists?.[0] }}</small>
+      </div>
+      <audio #audioPlayer playsinline (ended)="onEnded()"></audio>
+    </div>
+    <div class="seek-bar">
+      <ion-range
+        min="0" [max]="duration" [value]="currentTime" step="0.1"
+        (ionInput)="onSeek($event)">
+        <ion-label slot="start">{{ formatTime(currentTime) }}</ion-label>
+        <ion-label slot="end">{{ formatTime(duration) }}</ion-label>
+      </ion-range>
+    </div>
+  </ion-toolbar>
+</ion-footer>

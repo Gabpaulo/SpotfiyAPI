@@ -1,0 +1,42 @@
+<ion-header [translucent]="true" class="folders-header">
+  <ion-toolbar>
+    <ion-title>My Folders</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="createFolder()">
+        <ion-icon slot="icon-only" name="add-circle"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="folders-content">
+  <div class="folders-container" *ngIf="folders?.length; else emptyState">
+    <ion-list>
+      <ion-item
+        class="folder-item"
+        *ngFor="let f of folders"
+        (click)="openFolder(f)"
+        lines="full">
+        <ion-icon name="folder" slot="start" class="folder-icon"></ion-icon>
+        <ion-label>
+          <h2>{{ f.name }}</h2>
+        </ion-label>
+        <ion-buttons slot="end">
+          <ion-button fill="clear" (click)="renameFolder(f); $event.stopPropagation()">
+            <ion-icon name="create"></ion-icon>
+          </ion-button>
+          <ion-button fill="clear" color="danger" (click)="deleteFolder(f); $event.stopPropagation()">
+            <ion-icon name="trash"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-item>
+    </ion-list>
+  </div>
+
+  <ng-template #emptyState>
+    <div class="empty-state">
+      <ion-icon name="folder-open" class="empty-icon"></ion-icon>
+      <p>No folders yet. Tap <ion-icon name="add-circle"></ion-icon> to create one.</p>
+    </div>
+  </ng-template>
+</ion-content>

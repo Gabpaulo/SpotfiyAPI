@@ -6,6 +6,7 @@ import { RouteReuseStrategy } from '@angular/router';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { HttpClientModule }    from '@angular/common/http';
 import { IonicStorageModule }  from '@ionic/storage-angular';
+import { MiniPlayerComponent } from './components/mini-player/mini-player.component';
 
 import { AppComponent }        from './app.component';
 import { AppRoutingModule }    from './app-routing.module';
@@ -15,7 +16,7 @@ import { AppRoutingModule }    from './app-routing.module';
 
 @NgModule({
   declarations: [
-    AppComponent,
+    AppComponent
 
   ],
   imports: [

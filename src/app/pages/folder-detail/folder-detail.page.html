@@ -8,7 +8,8 @@
 </ion-header>
 
 <ion-content class="folder-detail-content">
-  <!-- Import Local Files -->
+
+  <!-- 1) Import Local Files -->
   <div class="section import-section">
     <div class="section-header">
       <ion-icon name="file-tray-full" class="section-icon"></ion-icon>
@@ -23,13 +24,14 @@
     </div>
   </div>
 
-  <!-- Add from Spotify -->
+  <!-- 2) Search & Add from Spotify -->
   <div class="section spotify-section">
     <div class="section-header">
       <ion-icon name="musical-notes" class="section-icon"></ion-icon>
       <h3>Add from Spotify</h3>
     </div>
     <div class="section-body">
+      <!-- Search bar -->
       <ion-searchbar
         class="custom-searchbar"
         [(ngModel)]="searchQuery"
@@ -37,6 +39,8 @@
         placeholder="Search Spotify…"
         show-clear-button="focus">
       </ion-searchbar>
+
+      <!-- Results list -->
       <ion-list *ngIf="searchResults.length" class="card-list">
         <ion-item *ngFor="let t of searchResults" class="card-item">
           <ion-thumbnail slot="start">
@@ -46,7 +50,11 @@
             <h4>{{ t.name }}</h4>
             <p>{{ t.artists[0]?.name }}</p>
           </ion-label>
-          <ion-button slot="end" fill="clear" (click)="addTrack(t)">
+          <!-- Add button -->
+          <ion-button
+            slot="end"
+            fill="clear"
+            (click)="addTrack(t); $event.stopPropagation()">
             <ion-icon name="add-circle"></ion-icon>
           </ion-button>
         </ion-item>
@@ -54,7 +62,7 @@
     </div>
   </div>
 
-  <!-- In This Folder -->
+  <!-- 3) In This Folder -->
   <div class="section contents-section">
     <div class="section-header">
       <ion-icon name="albums" class="section-icon"></ion-icon>
@@ -70,9 +78,11 @@
             <h4>{{ i.name }}</h4>
             <p *ngIf="i.artists">{{ i.artists.join(', ') }}</p>
           </ion-label>
+          <!-- Play button -->
           <ion-button slot="end" fill="clear" (click)="play(i)">
             <ion-icon name="play"></ion-icon>
           </ion-button>
+          <!-- Remove button -->
           <ion-button slot="end" color="danger" fill="clear" (click)="remove(i)">
             <ion-icon name="trash"></ion-icon>
           </ion-button>
@@ -84,27 +94,5 @@
       </p>
     </div>
   </div>
-</ion-content>
 
-<ion-footer *ngIf="currentTrack" class="mini-player-footer">
-  <ion-toolbar>
-    <div class="mini-player">
-      <ion-button fill="clear" (click)="togglePlayback()">
-        <ion-icon [name]="isPlaying ? 'pause' : 'play'"></ion-icon>
-      </ion-button>
-      <div class="track-info">
-        <span>{{ currentTrack.name }}</span>
-        <small>{{ currentTrack.artists?.[0] }}</small>
-      </div>
-      <audio #audioPlayer playsinline (ended)="onEnded()"></audio>
-    </div>
-    <div class="seek-bar">
-      <ion-range
-        min="0" [max]="duration" [value]="currentTime" step="0.1"
-        (ionInput)="onSeek($event)">
-        <ion-label slot="start">{{ formatTime(currentTime) }}</ion-label>
-        <ion-label slot="end">{{ formatTime(duration) }}</ion-label>
-      </ion-range>
-    </div>
-  </ion-toolbar>
-</ion-footer>
+</ion-content>

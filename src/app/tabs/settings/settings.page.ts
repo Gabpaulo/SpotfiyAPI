@@ -7,7 +7,8 @@ import { AudioService } from '../../services/audio.service';  // ← import
 @Component({
   selector: 'app-settings',
   templateUrl: './settings.page.html',
-  styleUrls: ['./settings.page.scss']
+  styleUrls: ['./settings.page.scss'],
+  standalone:false
 })
 export class SettingsPage {
 

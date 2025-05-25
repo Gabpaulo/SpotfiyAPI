@@ -1,0 +1,21 @@
+.mini-player {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  z-index: 999;
+  ion-toolbar {
+    --background: #1c1c1e;
+    --color: #fff;
+    .track-info {
+      display: flex;
+      align-items: center;
+      .thumb {
+        width: 32px;
+        height: 32px;
+        border-radius: 4px;
+        margin-right: 8px;
+      }
+      div { line-height: 1.2; }
+    }
+  }
+}

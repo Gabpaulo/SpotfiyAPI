@@ -12,7 +12,7 @@
 </ion-header>
 
 <ion-content class="search-content">
-  <div class="results-container" *ngIf="tracks?.length">
+  <div class="results-container" *ngIf="tracks?.length; else noResults">
     <ion-list>
       <ion-item
         class="track-item"
@@ -26,37 +26,14 @@
           <h2>{{ t.name }}</h2>
           <p>{{ t.artists[0]?.name }}</p>
         </ion-label>
-        <ion-button fill="clear" slot="end">
+        <ion-button fill="clear" slot="end" (click)="playTrack(t); $event.stopPropagation()">
           <ion-icon name="play"></ion-icon>
         </ion-button>
       </ion-item>
     </ion-list>
   </div>
-</ion-content>
 
-<ion-footer *ngIf="currentTrack">
-  <ion-toolbar class="mini-player-toolbar">
-    <div class="mini-player">
-      <ion-button fill="clear" (click)="toggle()">
-        <ion-icon [name]="isPlaying ? 'pause' : 'play'"></ion-icon>
-      </ion-button>
-      <div class="track-info">
-        <span>{{ currentTrack.name }}</span>
-        <small>{{ currentTrack.artists[0]?.name }}</small>
-      </div>
-      <!-- hidden fallback audio element -->
-      <audio #audioPlayer playsinline (ended)="toggle()"></audio>
-    </div>
-    <div class="seek-bar">
-      <ion-range
-        min="0"
-        [max]="duration"
-        [value]="currentTime"
-        step="0.1"
-        (ionInput)="onSeek($event)">
-        <ion-label slot="start">{{ formatTime(currentTime) }}</ion-label>
-        <ion-label slot="end">{{ formatTime(duration) }}</ion-label>
-      </ion-range>
-    </div>
-  </ion-toolbar>
-</ion-footer>
+  <ng-template #noResults>
+    <p class="empty-state">No tracks found.</p>
+  </ng-template>
+</ion-content>

@@ -1,19 +1,17 @@
-// src/app/pages/folder-detail/folder-detail.page.ts
-
-import { Component, OnInit }          from '@angular/core';
-import { ActivatedRoute }              from '@angular/router';
-import { FolderService }               from '../../services/folder.service';
-import { LibraryService }              from '../../services/library.service';
-import { PlaybackService }             from '../../services/playback.service';
-import { SpotifyService }              from '../../services/spotify.service';
-import { Folder }                      from '../../models/folder';
-import { LibraryItem }                 from '../../models/library-item';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute }      from '@angular/router';
+import { FolderService }       from '../../services/folder.service';
+import { LibraryService }      from '../../services/library.service';
+import { PlaybackService }     from '../../services/playback.service';
+import { SpotifyService }      from '../../services/spotify.service';
+import { Folder }              from '../../models/folder';
+import { LibraryItem }         from '../../models/library-item';
 
 @Component({
   selector: 'app-folder-detail',
   templateUrl: './folder-detail.page.html',
   styleUrls: ['./folder-detail.page.scss'],
-  standalone:false
+  standalone: false
 })
 export class FolderDetailPage implements OnInit {
   folder!: Folder;
@@ -41,10 +39,9 @@ export class FolderDetailPage implements OnInit {
     this.items = all.filter(i => this.folder.itemIds.includes(i.id));
   }
 
-  /** Handle user picking local files and add them to this folder */
   onFileSelected(ev: Event) {
     const input = ev.target as HTMLInputElement;
-    if (!input.files || input.files.length === 0) return;
+    if (!input.files?.length) return;
 
     Array.from(input.files).forEach(file => {
       const item: LibraryItem = {
@@ -53,16 +50,15 @@ export class FolderDetailPage implements OnInit {
         name:      file.name,
         url:       URL.createObjectURL(file)
       };
-      this.libSvc.add(item)
+      this.libSvc
+        .add(item)
         .then(() => this.folderSvc.addItem(this.folder.id, item.id))
         .then(() => this.loadItems());
     });
 
-    // Clear to allow re-selecting same file later
     input.value = '';
   }
 
-  /** Search Spotify for adding tracks */
   async searchMusic() {
     const q = this.searchQuery.trim();
     if (!q) {
@@ -73,7 +69,6 @@ export class FolderDetailPage implements OnInit {
     this.searchResults = res.tracks.items;
   }
 
-  /** Add selected Spotify track into this folder */
   async addTrack(track: any) {
     const item: LibraryItem = {
       id:        track.id,
@@ -88,21 +83,27 @@ export class FolderDetailPage implements OnInit {
     await this.loadItems();
   }
 
-  /** Play any LibraryItem (local or Spotify) */
-  play(item: LibraryItem) {
-    this.playback.play(item);
+  /**
+   * NEW: build a queue from all folder items & start at tapped item
+   */
+  queueFolder(item: LibraryItem) {
+    const queue = [...this.items];
+    const startIndex = queue.findIndex(i => i.id === item.id);
+    if (startIndex < 0) { return; }
+    this.playback.setQueue(queue, startIndex);
   }
 
-  /** Remove item from this folder */
+  /** optional single-item play (you can remove if unused) */
+  async play(item: LibraryItem) {
+    try {
+      await this.playback.play(item);
+    } catch (err) {
+      console.error('⚠️ Playback failed:', err);
+    }
+  }
+
   async remove(item: LibraryItem) {
     await this.folderSvc.removeItem(this.folder.id, item.id);
     await this.loadItems();
-  }
-
-  /** Helper to format seconds as M:SS */
-  formatTime(sec: number): string {
-    const m = Math.floor(sec / 60);
-    const s = String(Math.floor(sec % 60)).padStart(2,'0');
-    return `${m}:${s}`;
   }
 }

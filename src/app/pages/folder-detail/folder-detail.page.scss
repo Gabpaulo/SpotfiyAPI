@@ -1,536 +1,438 @@
-// Folder Detail Dark Theme SCSS (No Animations)
-
-// Color Variables
-$spotify-green: #1db954;
-$spotify-green-hover: #1ed760;
-$dark-bg: #121212;
-$darker-bg: #000000;
-$card-bg: #181818;
-$card-hover: #282828;
-$text-primary: #ffffff;
-$text-secondary: #b3b3b3;
-$text-muted: #535353;
-$border-color: #333333;
-$danger-color: #e22856;
-$danger-hover: #ff4081;
-$warning-color: #ffa726;
-$folder-color: #64b5f6;
-$section-accent: #9c27b0;
-$import-accent: #ff5722;
-$shadow-dark: rgba(0, 0, 0, 0.5);
-
-// Header Styles
 .folder-detail-header {
-  --background: #{$dark-bg};
-  --border-color: #{$border-color};
-  
   ion-toolbar {
-    --background: #{$dark-bg};
-    --color: #{$text-primary};
-    --border-color: #{$border-color};
-    
-    ion-buttons[slot="start"] {
-      ion-back-button {
-        --color: #{$text-primary};
-        --icon-font-size: 1.5rem;
-        
-        &:hover {
-          --color: #{$spotify-green};
-        }
-      }
-    }
-    
-    ion-title {
-      color: $text-primary;
-      font-weight: 700;
-      font-size: 1.4rem;
-      text-align: center;
-    }
+    --background: linear-gradient(135deg, #1db954, #1ed760);
+    --color: white;
+    padding: 8px 0;
   }
 }
 
-// Content Area
+.custom-back-btn {
+  --color: white;
+  --color-hover: rgba(255, 255, 255, 0.8);
+}
+
+.folder-title {
+  font-weight: 600;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+}
+
+// Content Styling
 .folder-detail-content {
-  --background: #{$dark-bg};
-  --color: #{$text-primary};
-  padding: 16px 0;
+  --background: linear-gradient(to bottom, #f8f9fa, #ffffff);
 }
 
-// Section Styles
+// Section Styling
 .section {
-  margin-bottom: 32px;
-  padding: 0 16px;
-  
-  .section-header {
-    display: flex;
-    align-items: center;
-    margin-bottom: 16px;
-    padding-bottom: 8px;
-    border-bottom: 1px solid $border-color;
-    
-    .section-icon {
-      font-size: 1.5rem;
-      margin-right: 12px;
-    }
-    
-    h3 {
-      color: $text-primary;
-      font-weight: 600;
-      font-size: 1.1rem;
-      margin: 0;
-      letter-spacing: 0.02em;
-    }
-  }
-  
-  .section-body {
-    padding-top: 8px;
+  background: white;
+  margin: 16px;
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  animation: fadeIn 0.4s ease-out;
+
+  &:first-child {
+    margin-top: 24px;
   }
 }
 
-// Import Section Specific
-.import-section {
-  .section-header {
+.section-header {
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  border-bottom: 1px solid #f0f0f0;
+  background: linear-gradient(to right, #fafbfc, #ffffff);
+}
+
+.section-icon-container {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 16px;
+  background: linear-gradient(135deg, #e9ecef, #f8f9fa);
+
+  &.spotify-icon {
+    background: linear-gradient(135deg, #1db954, #1ed760);
+    
     .section-icon {
-      color: $import-accent;
+      color: white;
     }
   }
-  
-  ion-button {
-    --background: transparent;
-    --background-hover: #{$card-hover};
-    --border-color: #{$import-accent};
-    --color: #{$import-accent};
-    --color-hover: #{lighten($import-accent, 10%)};
-    --border-radius: 12px;
-    --padding-top: 16px;
-    --padding-bottom: 16px;
+
+  &.contents-icon {
+    background: linear-gradient(135deg, #6c757d, #495057);
     
-    margin: 8px 0;
+    .section-icon {
+      color: white;
+    }
+  }
+}
+
+.section-icon {
+  font-size: 1.5rem;
+  color: #495057;
+}
+
+.section-title {
+  flex: 1;
+
+  h3 {
+    margin: 0 0 4px 0;
+    font-size: 1.1rem;
     font-weight: 600;
-    
-    ion-icon {
-      margin-right: 8px;
-      font-size: 1.2rem;
-    }
-    
-    &:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba($import-accent, 0.2);
-    }
+    color: #333;
+  }
+
+  p {
+    margin: 0;
+    font-size: 0.85rem;
+    color: #666;
   }
 }
 
-// Spotify Section Specific
-.spotify-section {
-  .section-header {
-    .section-icon {
-      color: $spotify-green;
-    }
+.section-body {
+  padding: 20px;
+}
+
+// Import Section
+.import-btn {
+  --background: transparent;
+  --color: #1db954;
+  --border-color: #1db954;
+  --border-radius: 12px;
+  --padding: 12px 16px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+
+  &:hover {
+    --background: rgba(29, 185, 84, 0.1);
+    --color: #1ed760;
+    --border-color: #1ed760;
   }
-  
-  .custom-searchbar {
-    --background: #{$card-bg};
-    --color: #{$text-primary};
-    --placeholder-color: #{$text-muted};
-    --icon-color: #{$text-secondary};
-    --clear-button-color: #{$text-secondary};
-    --border-radius: 25px;
-    
-    margin: 8px 0 16px 0;
-    border: 1px solid $border-color;
-    border-radius: 25px;
-    
-    &:focus-within {
-      border-color: $spotify-green;
-      box-shadow: 0 0 0 2px rgba($spotify-green, 0.2);
-    }
-    
-    .searchbar-input {
-      padding: 0 20px;
-      font-size: 1rem;
-    }
+
+  ion-icon {
+    font-size: 1.2rem;
   }
 }
 
-// Contents Section Specific
-.contents-section {
-  .section-header {
-    .section-icon {
-      color: $section-accent;
-    }
-  }
-}
+// Search Section
+.custom-searchbar {
+  --background: #f8f9fa;
+  --border-radius: 12px;
+  --box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  --placeholder-color: #666;
+  --color: #333;
+  margin-bottom: 16px;
 
-// Card List Styles
-.card-list {
-  background: transparent;
-  padding: 0;
-  
-  .card-item {
-    --background: #{$card-bg};
-    --color: #{$text-primary};
-    --border-color: transparent;
-    --inner-border-width: 0;
+  .searchbar-input {
     --padding-start: 16px;
-    --padding-end: 12px;
-    --min-height: 72px;
-    
-    margin: 8px 0;
+    font-size: 15px;
+  }
+}
+
+.search-results {
+  margin-top: 16px;
+}
+
+.results-count {
+  padding: 8px 12px;
+  font-size: 0.85rem;
+  color: #666;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+
+  span {
+    background: #f0f0f0;
+    padding: 4px 8px;
     border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  }
+}
+
+.results-list {
+  background: transparent;
+}
+
+.result-item {
+  --background: #fafbfc;
+  --border-radius: 8px;
+  --padding: 12px;
+  margin-bottom: 8px;
+  transition: all 0.3s ease;
+
+  &:hover {
+    --background: #f1f3f4;
+    transform: translateX(4px);
+  }
+}
+
+.track-avatar {
+  --size: 50px;
+  --border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.track-label {
+  margin-left: 12px;
+  flex: 1;
+  min-width: 0;
+}
+
+.track-name {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 4px 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.artist-name {
+  font-size: 0.8rem;
+  color: #666;
+  margin: 0 0 2px 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.album-name {
+  font-size: 0.75rem;
+  color: #999;
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.add-btn {
+  --color: #1db954;
+  --color-hover: #1ed760;
+  --padding: 8px;
+  --border-radius: 50%;
+  transition: all 0.3s ease;
+
+  &:hover {
+    --background: rgba(29, 185, 84, 0.1);
+    transform: scale(1.1);
+  }
+}
+
+// Folder Contents
+.folder-contents-list {
+  background: transparent;
+}
+
+.content-item {
+  --background: #fafbfc;
+  --border-radius: 8px;
+  --padding: 12px;
+  margin-bottom: 8px;
+  transition: all 0.3s ease;
+
+  &:hover {
+    --background: #f1f3f4;
     
-    &:hover {
-      --background: #{$card-hover};
-      transform: translateY(-1px);
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+    .content-actions {
+      opacity: 1;
     }
-    
-    ion-thumbnail {
-      width: 56px;
-      height: 56px;
-      border-radius: 6px;
-      overflow: hidden;
-      margin-right: 4px;
-      
-      img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-      }
-    }
-    
-    ion-label {
-      margin-left: 12px;
-      
-      h4 {
-        color: $text-primary;
-        font-weight: 600;
-        font-size: 1rem;
-        margin: 0 0 4px 0;
-        line-height: 1.3;
-      }
-      
-      p {
-        color: $text-secondary;
-        font-size: 0.875rem;
-        margin: 0;
-        line-height: 1.2;
-      }
-    }
-    
-    ion-button {
-      --border-radius: 50%;
-      --padding-start: 10px;
-      --padding-end: 10px;
-      
-      width: 44px;
-      height: 44px;
-      margin-left: 8px;
-      
-      &:first-of-type {
-        --color: #{$spotify-green};
-        --color-hover: #{$spotify-green-hover};
-        
-        &:hover {
-          --color: #{$spotify-green-hover};
-          transform: scale(1.05);
-        }
-      }
-      
-      &[color="danger"] {
-        --color: #{$danger-color};
-        --color-hover: #{$danger-hover};
-        
-        &:hover {
-          --color: #{$danger-hover};
-          transform: scale(1.05);
-        }
-      }
-      
-      ion-icon {
-        font-size: 1.2rem;
-      }
-    }
+  }
+}
+
+.track-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  margin-right: 12px;
+  color: #666;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.content-avatar {
+  --size: 48px;
+  --border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.content-label {
+  margin-left: 12px;
+  flex: 1;
+  min-width: 0;
+}
+
+.content-name {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 4px 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.content-artists {
+  font-size: 0.85rem;
+  color: #666;
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.content-actions {
+  display: flex;
+  gap: 4px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.play-btn {
+  --color: #1db954;
+  --color-hover: #1ed760;
+  --padding: 6px;
+  --border-radius: 50%;
+  transition: all 0.3s ease;
+
+  &:hover {
+    --background: rgba(29, 185, 84, 0.1);
+    transform: scale(1.1);
+  }
+
+  ion-icon {
+    font-size: 1.3rem;
+  }
+}
+
+.remove-btn {
+  --color: #e74c3c;
+  --color-hover: #c0392b;
+  --padding: 6px;
+  --border-radius: 50%;
+  transition: all 0.3s ease;
+
+  &:hover {
+    --background: rgba(231, 76, 60, 0.1);
+    transform: scale(1.1);
+  }
+
+  ion-icon {
+    font-size: 1.1rem;
   }
 }
 
 // Empty State
-.empty-state {
+.folder-empty-state {
   display: flex;
   flex-direction: column;
   align-items: center;
-  text-align: center;
+  justify-content: center;
   padding: 40px 20px;
-  color: $text-secondary;
-  
-  .empty-icon {
-    font-size: 3rem;
-    color: $text-muted;
-    margin-bottom: 12px;
-    opacity: 0.6;
+  text-align: center;
+  color: #666;
+
+  h4 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0 0 8px 0;
+    color: #333;
   }
-  
-  &:not(.empty-icon) {
-    font-size: 1rem;
+
+  p {
+    font-size: 0.9rem;
+    color: #999;
     margin: 0;
   }
 }
 
-// Mini Player Footer
-.mini-player-footer {
-  --background: #{$card-bg};
-  --border-color: #{$border-color};
-  
-  ion-toolbar {
-    --background: #{$card-bg};
-    --color: #{$text-primary};
-    --border-color: #{$border-color};
-    
-    padding: 8px 0;
-    border-top: 1px solid $border-color;
-  }
-  
-  .mini-player {
-    display: flex;
-    align-items: center;
-    padding: 0 16px 8px 16px;
-    
-    ion-button {
-      --color: #{$spotify-green};
-      --color-hover: #{$spotify-green-hover};
-      --border-radius: 50%;
-      --padding-start: 12px;
-      --padding-end: 12px;
-      
-      width: 48px;
-      height: 48px;
-      margin-right: 16px;
-      
-      &:hover {
-        --color: #{$spotify-green-hover};
-        transform: scale(1.05);
-      }
-      
-      ion-icon {
-        font-size: 1.5rem;
-      }
-    }
-    
-    .track-info {
-      flex: 1;
-      
-      span {
-        display: block;
-        color: $text-primary;
-        font-weight: 600;
-        font-size: 0.95rem;
-        line-height: 1.2;
-        margin-bottom: 2px;
-      }
-      
-      small {
-        color: $text-secondary;
-        font-size: 0.8rem;
-        line-height: 1.2;
-      }
-    }
-  }
-  
-  .seek-bar {
-    padding: 0 16px 8px 16px;
-    
-    ion-range {
-      --bar-background: #{$border-color};
-      --bar-background-active: #{$spotify-green};
-      --knob-background: #{$spotify-green};
-      --knob-size: 16px;
-      --height: 4px;
-      
-      padding: 0;
-      
-      &::part(bar) {
-        border-radius: 2px;
-      }
-      
-      &::part(bar-active) {
-        border-radius: 2px;
-      }
-      
-      &::part(knob) {
-        box-shadow: 0 2px 8px rgba($spotify-green, 0.4);
-        
-        &:hover {
-          transform: scale(1.2);
-        }
-      }
-    }
-    
-    ion-label {
-      color: $text-muted;
-      font-size: 0.75rem;
-      font-weight: 500;
-    }
-  }
-}
-
-// Mobile Responsive
-@media (max-width: 480px) {
-  .folder-detail-header {
-    ion-toolbar {
-      ion-title {
-        font-size: 1.2rem;
-      }
-    }
-  }
-  
-  .section {
-    padding: 0 12px;
-    margin-bottom: 24px;
-    
-    .section-header {
-      margin-bottom: 12px;
-      
-      .section-icon {
-        font-size: 1.3rem;
-        margin-right: 10px;
-      }
-      
-      h3 {
-        font-size: 1rem;
-      }
-    }
-  }
-  
-  .import-section {
-    ion-button {
-      --padding-top: 14px;
-      --padding-bottom: 14px;
-      
-      ion-icon {
-        font-size: 1.1rem;
-      }
-    }
-  }
-  
-  .card-list .card-item {
-    --padding-start: 12px;
-    --padding-end: 8px;
-    --min-height: 64px;
-    
-    margin: 6px 0;
-    border-radius: 10px;
-    
-    ion-thumbnail {
-      width: 48px;
-      height: 48px;
-      border-radius: 4px;
-    }
-    
-    ion-label {
-      margin-left: 10px;
-      
-      h4 {
-        font-size: 0.9rem;
-      }
-      
-      p {
-        font-size: 0.8rem;
-      }
-    }
-    
-    ion-button {
-      width: 40px;
-      height: 40px;
-      margin-left: 6px;
-      --padding-start: 8px;
-      --padding-end: 8px;
-      
-      ion-icon {
-        font-size: 1.1rem;
-      }
-    }
-  }
-  
-  .empty-state {
-    padding: 30px 16px;
-    
-    .empty-icon {
-      font-size: 2.5rem;
-      margin-bottom: 10px;
-    }
-  }
-  
-  .mini-player-footer {
-    .mini-player {
-      padding: 0 12px 6px 12px;
-      
-      ion-button {
-        width: 44px;
-        height: 44px;
-        margin-right: 12px;
-        
-        ion-icon {
-          font-size: 1.4rem;
-        }
-      }
-      
-      .track-info {
-        span {
-          font-size: 0.9rem;
-        }
-        
-        small {
-          font-size: 0.75rem;
-        }
-      }
-    }
-    
-    .seek-bar {
-      padding: 0 12px 6px 12px;
-    }
-  }
-}
-
-// Loading State
-.loading-state {
+.empty-icon-container {
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, rgba(108, 117, 125, 0.1), rgba(73, 80, 87, 0.1));
+  border-radius: 50%;
   display: flex;
-  justify-content: center;
   align-items: center;
-  padding: 40px 20px;
-  color: $text-secondary;
-  
-  ion-spinner {
-    --color: #{$spotify-green};
+  justify-content: center;
+  margin-bottom: 16px;
+  border: 2px solid rgba(108, 117, 125, 0.2);
+}
+
+.empty-icon {
+  font-size: 1.8rem;
+  color: #6c757d;
+}
+
+// Mobile Responsiveness
+@media (max-width: 768px) {
+  .section {
+    margin: 12px;
+    border-radius: 12px;
+  }
+
+  .section-header {
+    padding: 16px;
+  }
+
+  .section-body {
+    padding: 16px;
+  }
+
+  .section-icon-container {
+    width: 40px;
+    height: 40px;
     margin-right: 12px;
   }
-  
-  span {
+
+  .section-icon {
+    font-size: 1.2rem;
+  }
+
+  .section-title h3 {
     font-size: 1rem;
-    font-weight: 500;
+  }
+
+  .content-actions {
+    opacity: 1;
+  }
+
+  .track-number {
+    width: 28px;
+    height: 28px;
+    font-size: 0.8rem;
+  }
+
+  .content-avatar,
+  .track-avatar {
+    --size: 44px;
   }
 }
 
-// Custom scrollbar
-::-webkit-scrollbar {
-  width: 6px;
-}
-
-::-webkit-scrollbar-track {
-  background: $dark-bg;
-}
-
-::-webkit-scrollbar-thumb {
-  background: $border-color;
-  border-radius: 3px;
-  
-  &:hover {
-    background: $text-muted;
+// Animations
+@keyframes fadeIn {
+  from { 
+    opacity: 0; 
+    transform: translateY(20px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
   }
 }
 
-// Focus states for accessibility
-.card-item:focus-visible,
-ion-button:focus-visible {
-  outline: 2px solid $spotify-green;
+// Focus states
+.result-item:focus,
+.content-item:focus,
+.import-btn:focus,
+.add-btn:focus,
+.play-btn:focus,
+.remove-btn:focus {
+  outline: 2px solid #1db954;
   outline-offset: 2px;
 }

@@ -25,7 +25,11 @@ const routes: Routes = [
     loadChildren: () => import('./pages/folder-detail/folder-detail.module').then(m => m.FolderDetailPageModule)
   },
   // 7) Now the wildcard — **last** in the list
-  { path: '**', redirectTo: 'home' },
+  { path: '**', redirectTo: 'home' },  {
+    path: 'local-music',
+    loadChildren: () => import('./pages/local-music/local-music.module').then( m => m.LocalMusicPageModule)
+  },
+
 ];
 
 @NgModule({

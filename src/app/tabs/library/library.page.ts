@@ -1,8 +1,7 @@
-// src/app/tabs/library/library.page.ts
-
 import { Component, OnInit }    from '@angular/core';
 import { Router }               from '@angular/router';
 import { AlertController }      from '@ionic/angular';
+
 import { FolderService }        from '../../services/folder.service';
 import { Folder }               from '../../models/folder';
 
@@ -29,15 +28,24 @@ export class LibraryPage implements OnInit {
     this.folders = await this.folderSvc.getAll();
   }
 
-  /** Create a new folder via Alert prompt */
+  /** Navigate into the Local Music “folder” */
+  openLocalMusic() {
+    this.router.navigate(['tabs','library','local']);
+  }
+
+  /** Navigate into a user‐created folder */
+  openFolder(f: Folder) {
+    this.router.navigate(['tabs','library','folder', f.id]);
+  }
+
   async createFolder() {
     const alert = await this.alertCtrl.create({
       header: 'New Folder',
-      inputs: [{ name: 'name', placeholder: 'Folder name' }],
+      inputs: [{ name:'name', placeholder:'Folder name' }],
       buttons: [
-        { text: 'Cancel', role: 'cancel' },
+        { text:'Cancel', role:'cancel' },
         {
-          text: 'Create',
+          text:'Create',
           handler: async data => {
             const name = data.name?.trim();
             if (!name) return;
@@ -50,19 +58,18 @@ export class LibraryPage implements OnInit {
     await alert.present();
   }
 
-  /** Rename an existing folder */
-  async renameFolder(folder: Folder) {
+  async renameFolder(f: Folder) {
     const alert = await this.alertCtrl.create({
       header: 'Rename Folder',
-      inputs: [{ name: 'name', value: folder.name }],
+      inputs: [{ name:'name', value:f.name }],
       buttons: [
-        { text: 'Cancel', role: 'cancel' },
+        { text:'Cancel', role:'cancel' },
         {
-          text: 'Save',
+          text:'Save',
           handler: async data => {
             const name = data.name?.trim();
             if (!name) return;
-            await this.folderSvc.rename(folder.id, name);
+            await this.folderSvc.rename(f.id, name);
             await this.loadFolders();
           }
         }
@@ -71,29 +78,22 @@ export class LibraryPage implements OnInit {
     await alert.present();
   }
 
-  /** Confirm & delete */
-  async deleteFolder(folder: Folder) {
+  async deleteFolder(f: Folder) {
     const confirm = await this.alertCtrl.create({
       header: 'Delete Folder',
-      message: `Are you sure you want to remove “${folder.name}”?`,
+      message: `Remove “${f.name}” and its contents?`,
       buttons: [
-        { text: 'Cancel', role: 'cancel' },
+        { text:'Cancel', role:'cancel' },
         {
-          text: 'Delete',
-          role: 'destructive',
+          text:'Delete',
+          role:'destructive',
           handler: async () => {
-            await this.folderSvc.delete(folder.id);
+            await this.folderSvc.delete(f.id);
             await this.loadFolders();
           }
         }
       ]
     });
     await confirm.present();
-  }
-
-  /** Navigate into Folder Detail under the Tabs route */
-  openFolder(folder: Folder) {
-    // Note: this must match your nested route in library-routing.module.ts
-    this.router.navigate(['tabs', 'library', 'folder', folder.id]);
   }
 }

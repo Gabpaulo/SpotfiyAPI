@@ -1,17 +1,41 @@
-<!-- src/app/pages/welcome/welcome.page.html -->
+<ion-content class="welcome-page">
+  <div class="welcome-container">
+    <!-- Logo Section -->
+    <div class="logo-section">
+      <div class="logo-container">
+        <img src="assets/paulo.png" alt="Welcome Image" class="logo-image" />
+      </div>
+      
+      <!-- Welcome Text -->
+      <div class="welcome-text">
+        <h1 class="welcome-title">Welcome to Music</h1>
+        <p class="welcome-subtitle">Discover, play, and organize your favorite tracks</p>
+      </div>
+    </div>
 
-
-<ion-content class="ion-padding welcome-page">
-  <br><br><br><br><br><br><br><br>
-  <div class="logo-container">
-    <img src="assets/paulo.png" alt="Welcome Image" />
+    <!-- Action Buttons -->
+    <div class="action-section">
+      <ion-button 
+        expand="full" 
+        class="start-btn"
+        (click)="login()">
+        <ion-icon name="play-circle" slot="start"></ion-icon>
+        Get Started
+      </ion-button>
+      
+      <ion-button 
+        expand="full" 
+        fill="outline"
+        class="reset-btn"
+        (click)="reset()">
+        <ion-icon name="refresh-circle" slot="start"></ion-icon>
+        Reset Login State
+      </ion-button>
+    </div>
+    
+    <!-- Footer -->
+    <div class="welcome-footer">
+      <p>Powered by Spotify API</p>
+    </div>
   </div>
-
-  <!-- ACTION BUTTONS -->
-  <ion-button expand="full" (click)="login()">
-    Start
-  </ion-button>
-  <ion-button color="medium" expand="full" (click)="reset()">
-    Reset Login State
-  </ion-button>
 </ion-content>

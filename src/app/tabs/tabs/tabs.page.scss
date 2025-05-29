@@ -1,36 +1,109 @@
-/* Container to handle safe-area and overall tab styling */
 .custom-tabs {
-  ion-tab-bar.custom-tab-bar {
-    /* background / colors */
-    --background: var(--ion-color-dark);
-    --color: var(--ion-color-medium);
-    --color-selected: var(--ion-color-light);
-    --indicator-color: var(--ion-color-primary);
-    --indicator-height: 3px;
+  position: relative;
+}
 
-    /* border & safe area for iOS notch */
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    padding-bottom: env(safe-area-inset-bottom);
+.custom-tab-bar {
+  --background: rgba(255, 255, 255, 0.95);
+  --color: #666;
+  backdrop-filter: blur(20px);
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 -2px 20px rgba(0, 0, 0, 0.1);
+  height: 80px;
+  padding-bottom: env(safe-area-inset-bottom);
+}
 
-    /* each button pill */
-    ion-tab-button {
-      --padding-top: 8px;
-      --padding-bottom: 8px;
-      margin: 0 8px;
-      border-radius: 8px 8px 0 0;
-      transition: background 0.2s ease;
+.tab-button {
+  --color: #666;
+  --color-selected: #1db954;
+  --background: transparent;
+  --background-focused: rgba(29, 185, 84, 0.1);
+  --padding-top: 8px;
+  --padding-bottom: 8px;
+  max-width: none;
+  flex: 1;
+  min-height: 60px;
 
-      ion-icon {
-        font-size: 1.4rem;
-      }
-      ion-label {
-        font-size: 0.75rem;
-      }
+  &.tab-selected {
+    --color: #1db954;
+    
+    .tab-icon {
+      color: #1db954;
     }
+    
+    .tab-label {
+      color: #1db954;
+      font-weight: 600;
+    }
+  }
 
-    /* highlight the active tab */
-    ion-tab-button[aria-selected="true"] {
-      background: rgba(255, 255, 255, 0.1);
+  &:focus {
+    outline: 2px solid #1db954;
+    outline-offset: -2px;
+  }
+}
+
+.tab-icon {
+  font-size: 24px;
+  margin-bottom: 4px;
+  color: inherit;
+}
+
+.tab-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: inherit;
+  margin: 0;
+  text-transform: none;
+}
+
+// Adjust for devices with safe area (iPhone with notch/home indicator)
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+  .custom-tab-bar {
+    padding-bottom: calc(8px + env(safe-area-inset-bottom));
+    height: calc(80px + env(safe-area-inset-bottom));
+  }
+}
+
+// Small screen adjustments
+@media (max-width: 390px) {
+  .custom-tab-bar {
+    height: 75px;
+  }
+
+  .tab-button {
+    --padding-top: 6px;
+    --padding-bottom: 6px;
+    min-height: 55px;
+  }
+
+  .tab-icon {
+    font-size: 22px;
+    margin-bottom: 2px;
+  }
+
+  .tab-label {
+    font-size: 11px;
+  }
+}
+
+// Dark mode support
+@media (prefers-color-scheme: dark) {
+  .custom-tab-bar {
+    --background: rgba(18, 18, 18, 0.95);
+    --color: #b3b3b3;
+    border-top-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .tab-button {
+    --color: #b3b3b3;
+    --color-selected: #1db954;
+    --background-focused: rgba(29, 185, 84, 0.15);
+
+    &.tab-selected {
+      .tab-icon,
+      .tab-label {
+        color: #1db954;
+      }
     }
   }
 }

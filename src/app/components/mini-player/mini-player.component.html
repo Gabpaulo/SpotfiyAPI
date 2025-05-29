@@ -1,31 +1,64 @@
 <ion-footer class="mini-player" *ngIf="track$ | async as t">
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-button (click)="playback.toggle()">
-        <ion-icon [name]="(playing$ | async) ? 'pause' : 'play'"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-
-    <ion-title>
-      <div class="track-info">
-        <img *ngIf="t.thumbnail" [src]="t.thumbnail" class="thumb" />
-        <div>
-          <div>{{ t.name }}</div>
-          <small>{{ t.artists?.join(', ') }}</small>
+  <div class="player-progress-bar">
+    <ion-range
+      class="progress-range"
+      [min]="0"
+      [max]="(duration$ | async) || 0"
+      [value]="(position$ | async) || 0"
+      step="0.1"
+      (ionInput)="onSeek($event)">
+    </ion-range>
+  </div>
+  
+  <ion-toolbar class="player-toolbar">
+    <div class="player-content">
+      <!-- Track Info Section -->
+      <div class="track-section">
+        <div class="album-art" *ngIf="t.thumbnail">
+          <img [src]="t.thumbnail" [alt]="t.name + ' cover'" />
+        </div>
+        <div class="track-details">
+          <div class="track-name">{{ t.name }}</div>
+          <div class="track-artist">{{ t.artists?.join(', ') }}</div>
         </div>
       </div>
-    </ion-title>
 
-    <ion-buttons slot="end">
-      <ion-range
-        [min]="0"
-        [max]="(duration$ | async) || 0"
-        [value]="(position$ | async) || 0"
-        step="0.1"
-        (ionInput)="onSeek($event)">
-        <ion-label slot="start">{{ formatTime((position$ | async) || 0) }}</ion-label>
-        <ion-label slot="end">{{ formatTime((duration$ | async) || 0) }}</ion-label>
-      </ion-range>
-    </ion-buttons>
+      <!-- Controls Section -->
+      <div class="controls-section">
+        <ion-button 
+          fill="clear" 
+          (click)="previous()" 
+          class="control-btn prev-btn"
+          aria-label="Previous track">
+          <ion-icon name="play-skip-back-circle" class="control-icon"></ion-icon>
+        </ion-button>
+        
+        <ion-button 
+          fill="clear" 
+          (click)="toggle()" 
+          class="control-btn play-pause-btn"
+          aria-label="Play or pause">
+          <ion-icon 
+            [name]="(playing$ | async) ? 'pause-circle' : 'play-circle'" 
+            class="control-icon main-control">
+          </ion-icon>
+        </ion-button>
+        
+        <ion-button 
+          fill="clear" 
+          (click)="next()" 
+          class="control-btn next-btn"
+          aria-label="Next track">
+          <ion-icon name="play-skip-forward-circle" class="control-icon"></ion-icon>
+        </ion-button>
+      </div>
+
+      
+      <div class="time-section">
+        <span class="time-current">{{ formatTime((position$ | async) || 0) }}</span>
+        <span class="time-separator">/</span>
+        <span class="time-total">{{ formatTime((duration$ | async) || 0) }}</span>
+      </div>
+    </div>
   </ion-toolbar>
 </ion-footer>

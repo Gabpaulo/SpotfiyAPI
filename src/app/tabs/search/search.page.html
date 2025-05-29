@@ -1,39 +1,70 @@
 <ion-header [translucent]="true" class="search-header">
   <ion-toolbar>
-    <ion-title>Search Spotify</ion-title>
-    <ion-searchbar
-      class="custom-searchbar"
-      [(ngModel)]="query"
-      (ionInput)="onSearch()"
-      placeholder="Type to search…"
-      show-clear-button="focus">
+    <ion-title>
+      <ion-icon name="musical-notes" style="margin-right: 8px;"></ion-icon>
+      Search Spotify
+    </ion-title>
+    <ion-searchbar 
+      class="custom-searchbar" 
+      [(ngModel)]="query" 
+      (ionInput)="onSearch()" 
+      placeholder="Search for songs, artists, albums..." 
+      show-clear-button="focus"
+      search-icon="search"
+      debounce="300">
     </ion-searchbar>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="search-content">
   <div class="results-container" *ngIf="tracks?.length; else noResults">
-    <ion-list>
-      <ion-item
-        class="track-item"
-        *ngFor="let t of tracks"
-        (click)="playTrack(t)"
-        lines="full">
-        <ion-thumbnail slot="start">
-          <img [src]="t.album.images[0]?.url || 'assets/placeholder.png'" />
-        </ion-thumbnail>
-        <ion-label>
-          <h2>{{ t.name }}</h2>
-          <p>{{ t.artists[0]?.name }}</p>
+    <div class="results-header">
+      <h3>{{ tracks.length }} tracks found</h3>
+    </div>
+    
+    <ion-list class="tracks-list">
+      <ion-item 
+        class="track-item" 
+        *ngFor="let t of tracks" 
+        (click)="playTrack(t)" 
+        lines="none"
+        button>
+        
+        <ion-avatar slot="start" class="album-cover">
+          <img 
+            [src]="t.album.images[0]?.url || 'assets/placeholder.png'" 
+            [alt]="t.album.name + ' cover'"
+            loading="lazy" />
+        </ion-avatar>
+        
+        <ion-label class="track-info">
+          <h2 class="track-title">{{ t.name }}</h2>
+          <p class="artist-name">{{ t.artists[0]?.name }}</p>
+          <p class="album-name">{{ t.album.name }}</p>
         </ion-label>
-        <ion-button fill="clear" slot="end" (click)="playTrack(t); $event.stopPropagation()">
-          <ion-icon name="play"></ion-icon>
-        </ion-button>
+        
+        <div slot="end" class="track-actions">
+          <ion-button 
+            fill="clear" 
+            class="play-button"
+            (click)="playTrack(t); $event.stopPropagation()"
+            aria-label="Play track">
+            <ion-icon name="play-circle" size="large"></ion-icon>
+          </ion-button>
+        </div>
       </ion-item>
     </ion-list>
   </div>
 
   <ng-template #noResults>
-    <p class="empty-state">No tracks found.</p>
+    <div class="empty-state">
+      <ion-icon name="search" class="empty-icon"></ion-icon>
+      <h3>No tracks found</h3>
+      <p>Try searching for different keywords or check your spelling</p>
+    </div>
   </ng-template>
+
+
 </ion-content>
+
+  <app-mini-player></app-mini-player> // 

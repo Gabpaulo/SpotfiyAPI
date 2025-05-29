@@ -1,13 +1,94 @@
-<!-- src/app/tabs/settings/settings.page.html -->
-
-<ion-header>
+<ion-header [translucent]="true" class="settings-header">
   <ion-toolbar>
-    <ion-title>Settings</ion-title>
+    <ion-title>
+      <ion-icon name="settings" style="margin-right: 8px;"></ion-icon>
+      Settings
+    </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
-  <ion-button expand="full" color="danger" (click)="reset()">
-    Log out & Clear Tokens
-  </ion-button>
+<ion-content class="settings-content">
+  <!-- Account Section -->
+  <div class="settings-section">
+    <div class="section-header">
+      <div class="section-icon-container">
+        <ion-icon name="person-circle" class="section-icon"></ion-icon>
+      </div>
+      <div class="section-title">
+        <h3>Account</h3>
+        <p>Manage your account settings</p>
+      </div>
+    </div>
+    <div class="section-body">
+      <ion-button 
+        expand="block" 
+        fill="outline" 
+        color="danger"
+        class="logout-btn"
+        (click)="reset()">
+        <ion-icon name="log-out" slot="start"></ion-icon>
+        Log out & Clear Tokens
+      </ion-button>
+    </div>
+  </div>
+
+  <!-- App Info Section -->
+  <div class="settings-section">
+    <div class="section-header">
+      <div class="section-icon-container info-icon">
+        <ion-icon name="information-circle" class="section-icon"></ion-icon>
+      </div>
+      <div class="section-title">
+        <h3>App Information</h3>
+        <p>About this application</p>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="info-grid">
+        <div class="info-item">
+          <ion-icon name="musical-notes" class="info-icon-small"></ion-icon>
+          <div class="info-content">
+            <div class="info-label">Music App</div>
+            <div class="info-value">Version 1.0.0</div>
+          </div>
+        </div>
+        
+        <div class="info-item">
+          <ion-icon name="logo-spotify" class="info-icon-small"></ion-icon>
+          <div class="info-content">
+            <div class="info-label">Powered by</div>
+            <div class="info-value">Spotify API</div>
+          </div>
+        </div>
+        
+        <div class="info-item">
+          <ion-icon name="code-slash" class="info-icon-small"></ion-icon>
+          <div class="info-content">
+            <div class="info-label">Built with</div>
+            <div class="info-value">Ionic & Angular</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Support Section -->
+  <div class="settings-section">
+    <div class="section-header">
+      <div class="section-icon-container support-icon">
+        <ion-icon name="help-circle" class="section-icon"></ion-icon>
+      </div>
+      <div class="section-title">
+        <h3>Support</h3>
+        <p>Get help and support</p>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="support-text">
+        <p>If you encounter any issues or have questions about using this app, please check your Spotify account settings or contact support through the official Spotify channels.</p>
+      </div>
+    </div>
+  </div>
+
+
 </ion-content>

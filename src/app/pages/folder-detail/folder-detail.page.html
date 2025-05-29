@@ -1,98 +1,140 @@
-<ion-header [translucent]="true" class="folder-detail-header">
+ <ion-header [translucent]="true" class="folder-detail-header">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/tabs/library"></ion-back-button>
+      <ion-back-button 
+        defaultHref="/tabs/library"
+        class="custom-back-btn">
+      </ion-back-button>
     </ion-buttons>
-    <ion-title>{{ folder.name }}</ion-title>
+    <ion-title class="folder-title">
+      <ion-icon name="folder" style="margin-right: 8px; color: #1db954;"></ion-icon>
+      {{ folder.name }}
+    </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="folder-detail-content">
 
-  <!-- 1) Import Local Files -->
-  <div class="section import-section">
-    <div class="section-header">
-      <ion-icon name="file-tray-full" class="section-icon"></ion-icon>
-      <h3>Import Local Files</h3>
-    </div>
-    <div class="section-body">
-      <ion-button expand="block" fill="outline" (click)="fileInput.click()">
-        <ion-icon name="folder-open" slot="start"></ion-icon>
-        Choose Files
-      </ion-button>
-      <input #fileInput type="file" (change)="onFileSelected($event)" multiple hidden />
-    </div>
-  </div>
-
-  <!-- 2) Search & Add from Spotify -->
+  <!-- 1) Add from Spotify -->
   <div class="section spotify-section">
     <div class="section-header">
-      <ion-icon name="musical-notes" class="section-icon"></ion-icon>
-      <h3>Add from Spotify</h3>
+      <div class="section-icon-container spotify-icon">
+        <ion-icon name="musical-notes" class="section-icon"></ion-icon>
+      </div>
+      <div class="section-title">
+        <h3>Add from Spotify</h3>
+        <p>Search and add tracks to this folder</p>
+      </div>
     </div>
     <div class="section-body">
-      <!-- Search bar -->
       <ion-searchbar
         class="custom-searchbar"
         [(ngModel)]="searchQuery"
         (ionInput)="searchMusic()"
-        placeholder="Search Spotify…"
-        show-clear-button="focus">
+        placeholder="Search for songs, artists, albums..."
+        show-clear-button="focus"
+        debounce="300">
       </ion-searchbar>
 
-      <!-- Results list -->
-      <ion-list *ngIf="searchResults.length" class="card-list">
-        <ion-item *ngFor="let t of searchResults" class="card-item">
-          <ion-thumbnail slot="start">
-            <img [src]="t.album.images[0]?.url || 'assets/placeholder.png'" />
-          </ion-thumbnail>
-          <ion-label>
-            <h4>{{ t.name }}</h4>
-            <p>{{ t.artists[0]?.name }}</p>
-          </ion-label>
-          <!-- Add button -->
-          <ion-button
-            slot="end"
-            fill="clear"
-            (click)="addTrack(t); $event.stopPropagation()">
-            <ion-icon name="add-circle"></ion-icon>
-          </ion-button>
-        </ion-item>
-      </ion-list>
+      <div class="search-results" *ngIf="searchResults.length">
+        <div class="results-count">
+          <span>{{ searchResults.length }} results found</span>
+        </div>
+        <ion-list class="results-list">
+          <ion-item 
+            *ngFor="let t of searchResults" 
+            class="result-item"
+            lines="none">
+            
+            <ion-avatar slot="start" class="track-avatar">
+              <img 
+                [src]="t.album.images[0]?.url || 'assets/placeholder.png'" 
+                [alt]="t.album.name + ' cover'" />
+            </ion-avatar>
+            
+            <ion-label class="track-label">
+              <h4 class="track-name">{{ t.name }}</h4>
+              <p class="artist-name">{{ t.artists[0]?.name }}</p>
+              <p class="album-name">{{ t.album.name }}</p>
+            </ion-label>
+            
+            <ion-button
+              slot="end"
+              fill="clear"
+              class="add-btn"
+              (click)="addTrack(t); $event.stopPropagation()"
+              aria-label="Add to folder">
+              <ion-icon name="add-circle" size="large"></ion-icon>
+            </ion-button>
+          </ion-item>
+        </ion-list>
+      </div>
     </div>
   </div>
 
-  <!-- 3) In This Folder -->
+  <!-- 2) In This Folder -->
   <div class="section contents-section">
     <div class="section-header">
-      <ion-icon name="albums" class="section-icon"></ion-icon>
-      <h3>In This Folder</h3>
+      <div class="section-icon-container contents-icon">
+        <ion-icon name="albums" class="section-icon"></ion-icon>
+      </div>
+      <div class="section-title">
+        <h3>In This Folder</h3>
+        <p>{{ items.length }} {{ items.length === 1 ? 'track' : 'tracks' }}</p>
+      </div>
     </div>
     <div class="section-body">
-      <ion-list *ngIf="items.length" class="card-list">
-        <ion-item *ngFor="let i of items" class="card-item">
-          <ion-thumbnail *ngIf="i.thumbnail" slot="start">
-            <img [src]="i.thumbnail" />
-          </ion-thumbnail>
-          <ion-label>
-            <h4>{{ i.name }}</h4>
-            <p *ngIf="i.artists">{{ i.artists.join(', ') }}</p>
+      <ion-list *ngIf="items.length" class="folder-contents-list">
+        <ion-item 
+          *ngFor="let i of items; let idx = index" 
+          class="content-item"
+          lines="none">
+          
+          <div slot="start" class="track-number">
+            <span>{{ idx + 1 }}</span>
+          </div>
+          
+          <ion-avatar *ngIf="i.thumbnail" slot="start" class="content-avatar">
+            <img [src]="i.thumbnail" [alt]="i.name + ' cover'" />
+          </ion-avatar>
+          
+          <ion-label class="content-label">
+            <h4 class="content-name">{{ i.name }}</h4>
+            <p *ngIf="i.artists" class="content-artists">{{ i.artists.join(', ') }}</p>
           </ion-label>
-          <!-- Play button -->
-          <ion-button slot="end" fill="clear" (click)="play(i)">
-            <ion-icon name="play"></ion-icon>
-          </ion-button>
-          <!-- Remove button -->
-          <ion-button slot="end" color="danger" fill="clear" (click)="remove(i)">
-            <ion-icon name="trash"></ion-icon>
-          </ion-button>
+          
+          <div slot="end" class="content-actions">
+            <!-- Queue folder & play from here -->
+            <ion-button 
+              fill="clear" 
+              class="play-btn"
+              (click)="queueFolder(i); $event.stopPropagation()"
+              aria-label="Queue and play from here">
+              <ion-icon name="play-circle"></ion-icon>
+            </ion-button>
+            
+            <!-- Remove from folder -->
+            <ion-button 
+              fill="clear" 
+              class="remove-btn"
+              (click)="remove(i)"
+              aria-label="Remove from folder">
+              <ion-icon name="trash"></ion-icon>
+            </ion-button>
+          </div>
         </ion-item>
       </ion-list>
-      <p *ngIf="!items.length" class="empty-state">
-        <ion-icon name="folder-open" class="empty-icon"></ion-icon>
-        This folder is empty.
-      </p>
+      
+      <div *ngIf="!items.length" class="folder-empty-state">
+        <div class="empty-icon-container">
+          <ion-icon name="folder-open" class="empty-icon"></ion-icon>
+        </div>
+        <h4>This folder is empty</h4>
+        <p>Add some tracks to get started</p>
+      </div>
     </div>
   </div>
 
 </ion-content>
+
+<app-mini-player></app-mini-player>

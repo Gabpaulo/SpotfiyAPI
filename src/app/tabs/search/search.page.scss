@@ -1,398 +1,233 @@
-// Spotify Search Dark Theme SCSS
-
-// Color Variables
-$spotify-green: #1db954;
-$spotify-green-hover: #1ed760;
-$dark-bg: #121212;
-$darker-bg: #000000;
-$card-bg: #181818;
-$card-hover: #282828;
-$text-primary: #ffffff;
-$text-secondary: #b3b3b3;
-$text-muted: #535353;
-$border-color: #333333;
-$shadow-dark: rgba(0, 0, 0, 0.5);
-
-// Search Header Styles
 .search-header {
-  --background: #{$dark-bg};
-  --border-color: #{$border-color};
-  
   ion-toolbar {
-    --background: #{$dark-bg};
-    --color: #{$text-primary};
-    --border-color: #{$border-color};
-    
-    ion-title {
-      color: $text-primary;
-      font-weight: 700;
-      font-size: 1.5rem;
-    }
-  }
-  
-  .custom-searchbar {
-    --background: #{$card-bg};
-    --color: #{$text-primary};
-    --placeholder-color: #{$text-muted};
-    --icon-color: #{$text-secondary};
-    --clear-button-color: #{$text-secondary};
-    --border-radius: 25px;
-    
-    margin: 8px 16px;
-    border: 1px solid $border-color;
-    border-radius: 25px;
-    transition: all 0.3s ease;
-    
-    &:focus-within {
-      border-color: $spotify-green;
-      box-shadow: 0 0 0 2px rgba($spotify-green, 0.2);
-    }
-    
-    .searchbar-input {
-      padding: 0 20px;
-      font-size: 1rem;
-    }
-  }
-}
-
-// Content Area
-.search-content {
-  --background: #{$dark-bg};
-  --color: #{$text-primary};
-}
-
-// Results Container
-.results-container {
-  padding: 16px 0;
-  
-  ion-list {
-    background: transparent;
-    
-    ion-item {
-      --background: transparent;
-      --color: #{$text-primary};
-      --border-color: #{$border-color};
-      --inner-border-width: 0;
-      --padding-start: 16px;
-      --padding-end: 16px;
-      
-      margin: 4px 16px;
-      border-radius: 8px;
-      transition: all 0.2s ease;
-      cursor: pointer;
-      
-      &:hover {
-        --background: #{$card-hover};
-        transform: translateY(-1px);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-      }
-      
-      &:active {
-        transform: translateY(0);
-      }
-    }
-  }
-}
-
-// Track Item Specific Styles
-.track-item {
-  ion-thumbnail {
-    width: 56px;
-    height: 56px;
-    border-radius: 4px;
-    overflow: hidden;
-    
-    img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.3s ease;
-    }
-  }
-  
-  ion-label {
-    margin-left: 16px;
-    
-    h2 {
-      color: $text-primary;
-      font-weight: 600;
-      font-size: 1rem;
-      margin: 0 0 4px 0;
-      line-height: 1.2;
-    }
-    
-    p {
-      color: $text-secondary;
-      font-size: 0.875rem;
-      margin: 0;
-      line-height: 1.2;
-    }
-  }
-  
-  ion-button {
-    --color: #{$text-secondary};
-    --color-hover: #{$spotify-green};
-    --border-radius: 50%;
-    --padding-start: 12px;
-    --padding-end: 12px;
-    
-    width: 40px;
-    height: 40px;
-    transition: all 0.2s ease;
-    
-    &:hover {
-      --color: #{$spotify-green};
-      transform: scale(1.1);
-    }
-    
-    ion-icon {
-      font-size: 1.2rem;
-    }
-  }
-  
-  &:hover {
-    ion-thumbnail img {
-      transform: scale(1.05);
-    }
-  }
-}
-
-// Footer Mini Player
-ion-footer {
-  --background: #{$card-bg};
-  --border-color: #{$border-color};
-  
-  .mini-player-toolbar {
-    --background: #{$card-bg};
-    --color: #{$text-primary};
-    --border-color: #{$border-color};
-    
+    --background: linear-gradient(135deg, #1db954, #1ed760);
+    --color: white;
     padding: 8px 0;
-    border-top: 1px solid $border-color;
   }
-  
-  .mini-player {
+
+  ion-title {
+    font-weight: 600;
+    font-size: 1.2rem;
     display: flex;
     align-items: center;
-    padding: 0 16px 8px 16px;
-    
-    ion-button {
-      --color: #{$spotify-green};
-      --color-hover: #{$spotify-green-hover};
-      --border-radius: 50%;
-      --padding-start: 12px;
-      --padding-end: 12px;
-      
-      width: 48px;
-      height: 48px;
-      margin-right: 16px;
-      transition: all 0.2s ease;
-      
-      &:hover {
-        transform: scale(1.05);
-      }
-      
-      ion-icon {
-        font-size: 1.5rem;
-      }
-    }
-    
-    .track-info {
-      flex: 1;
-      
-      span {
-        display: block;
-        color: $text-primary;
-        font-weight: 600;
-        font-size: 0.95rem;
-        line-height: 1.2;
-        margin-bottom: 2px;
-      }
-      
-      small {
-        color: $text-secondary;
-        font-size: 0.8rem;
-        line-height: 1.2;
-      }
-    }
   }
-  
-  .seek-bar {
-    padding: 0 16px 8px 16px;
-    
-    ion-range {
-      --bar-background: #{$border-color};
-      --bar-background-active: #{$spotify-green};
-      --knob-background: #{$spotify-green};
-      --knob-size: 16px;
-      --height: 4px;
-      
-      padding: 0;
-      
-      &::part(bar) {
-        border-radius: 2px;
-      }
-      
-      &::part(bar-active) {
-        border-radius: 2px;
-      }
-      
-      &::part(knob) {
-        box-shadow: 0 2px 8px rgba($spotify-green, 0.4);
-        transition: all 0.2s ease;
-        
-        &:hover {
-          transform: scale(1.2);
-        }
-      }
-    }
-    
-    ion-label {
-      color: $text-muted;
-      font-size: 0.75rem;
-      font-weight: 500;
-    }
+}
+
+.custom-searchbar {
+  --background: rgba(255, 255, 255, 0.15);
+  --border-radius: 25px;
+  --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --placeholder-color: rgba(255, 255, 255, 0.8);
+  --color: white;
+  margin: 8px 16px;
+  backdrop-filter: blur(10px);
+
+  .searchbar-input {
+    --padding-start: 20px;
+    font-size: 16px;
   }
+}
+
+// Content Styling
+.search-content {
+  --background: linear-gradient(to bottom, #f8f9fa, #ffffff);
+}
+
+.results-container {
+  padding: 16px;
+}
+
+.results-header {
+  margin-bottom: 16px;
+  padding: 0 8px;
+
+  h3 {
+    color: #666;
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+}
+
+// Track List Styling
+.tracks-list {
+  background: transparent;
+}
+
+.track-item {
+  --background: white;
+  --border-radius: 12px;
+  --padding: 12px;
+  margin-bottom: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  cursor: pointer;
+
+  &:hover {
+    --background: #f8f9fa;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  &:focus {
+    outline: 2px solid #1db954;
+    outline-offset: 2px;
+  }
+}
+
+// Album Cover
+.album-cover {
+  --size: 60px;
+  --border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+// Track Info
+.track-info {
+  margin-left: 16px;
+  flex: 1;
+  min-width: 0;
+}
+
+.track-title {
+  color: #333;
+  font-weight: 600;
+  font-size: 1rem;
+  margin: 0 0 4px 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.artist-name {
+  color: #666;
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin: 0 0 2px 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.album-name {
+  color: #999;
+  font-size: 0.8rem;
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+// Play Button
+.track-actions {
+  display: flex;
+  align-items: center;
+  margin-left: 8px;
+}
+
+.play-button {
+  --color: #1db954;
+  --color-hover: #1ed760;
+  --padding: 8px;
+  --border-radius: 50%;
+  transition: all 0.3s ease;
+
+  &:hover {
+    --background: rgba(29, 185, 84, 0.1);
+    transform: scale(1.1);
+  }
+
+  &:focus {
+    outline: 2px solid #1db954;
+    outline-offset: 2px;
+  }
+
+  ion-icon {
+    font-size: 2rem;
+  }
+}
+
+// Empty State
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  text-align: center;
+  color: #666;
+  min-height: 50vh;
+
+  h3 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: 0 0 8px 0;
+    color: #333;
+  }
+
+  p {
+    font-size: 0.9rem;
+    color: #999;
+    margin: 0;
+    max-width: 300px;
+    line-height: 1.4;
+  }
+}
+
+.empty-icon {
+  font-size: 4rem;
+  color: #ccc;
+  margin-bottom: 16px;
 }
 
 // Responsive Design
 @media (max-width: 768px) {
-  .search-header {
-    ion-title {
-      font-size: 1.25rem;
-    }
-    
-    .custom-searchbar {
-      margin: 6px 12px;
-    }
-  }
-  
-  .results-container ion-list ion-item {
-    margin: 2px 8px;
-    --padding-start: 12px;
-    --padding-end: 12px;
-  }
-  
   .track-item {
-    ion-thumbnail {
-      width: 48px;
-      height: 48px;
-    }
-    
-    ion-label {
-      margin-left: 12px;
-      
-      h2 {
-        font-size: 0.9rem;
-      }
-      
-      p {
-        font-size: 0.8rem;
-      }
-    }
-    
-    ion-button {
-      width: 36px;
-      height: 36px;
-      
-      ion-icon {
-        font-size: 1rem;
-      }
-    }
+    --padding: 8px;
   }
   
-  .mini-player {
-    padding: 0 12px 8px 12px;
-    
-    ion-button {
-      width: 44px;
-      height: 44px;
-      margin-right: 12px;
-    }
-    
-    .track-info {
-      span {
-        font-size: 0.9rem;
-      }
-      
-      small {
-        font-size: 0.75rem;
-      }
-    }
+  .album-cover {
+    --size: 50px;
   }
   
-  .seek-bar {
-    padding: 0 12px 8px 12px;
-  }
-}
-
-// Loading and Empty States
-.loading-state {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 40px 20px;
-  color: $text-secondary;
-  
-  ion-spinner {
-    --color: #{$spotify-green};
-    margin-right: 12px;
-  }
-}
-
-.empty-state {
-  text-align: center;
-  padding: 60px 20px;
-  color: $text-secondary;
-  
-  ion-icon {
-    font-size: 4rem;
-    color: $text-muted;
-    margin-bottom: 16px;
-  }
-  
-  h3 {
-    color: $text-primary;
-    margin: 0 0 8px 0;
-    font-weight: 600;
-  }
-  
-  p {
-    margin: 0;
+  .track-title {
     font-size: 0.9rem;
+  }
+  
+  .artist-name {
+    font-size: 0.8rem;
+  }
+  
+  .album-name {
+    font-size: 0.7rem;
   }
 }
 
 // Animations
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
+  from { 
+    opacity: 0; 
+    transform: translateY(10px); 
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
   }
 }
 
 .track-item {
   animation: fadeIn 0.3s ease-out;
-}
-
-// Scrollbar Styling for WebKit browsers
-::-webkit-scrollbar {
-  width: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: $dark-bg;
-}
-
-::-webkit-scrollbar-thumb {
-  background: $border-color;
-  border-radius: 4px;
-  
-  &:hover {
-    background: $text-muted;
-  }
 }

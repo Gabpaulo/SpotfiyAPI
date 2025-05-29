@@ -1,20 +1,20 @@
 <ion-router-outlet></ion-router-outlet>
-<app-mini-player></app-mini-player> <!-- always visible -->
+
 <ion-tabs class="custom-tabs">
   <ion-tab-bar slot="bottom" class="custom-tab-bar">
-    <ion-tab-button tab="search" href="/tabs/search">
-      <ion-icon name="search"></ion-icon>
-      <ion-label>Search</ion-label>
+    <ion-tab-button tab="search" href="/tabs/search" class="tab-button">
+      <ion-icon name="search" class="tab-icon"></ion-icon>
+      <ion-label class="tab-label">Search</ion-label>
     </ion-tab-button>
-
-    <ion-tab-button tab="library" href="/tabs/library">
-      <ion-icon name="library-music"></ion-icon>
-      <ion-label>Library</ion-label>
+     
+    <ion-tab-button tab="library" href="/tabs/library" class="tab-button">
+      <ion-icon name="library" class="tab-icon"></ion-icon>
+      <ion-label class="tab-label">Library</ion-label>
     </ion-tab-button>
-
-    <ion-tab-button tab="settings" href="/tabs/settings">
-      <ion-icon name="settings"></ion-icon>
-      <ion-label>Settings</ion-label>
+     
+    <ion-tab-button tab="settings" href="/tabs/settings" class="tab-button">
+      <ion-icon name="settings" class="tab-icon"></ion-icon>
+      <ion-label class="tab-label">Settings</ion-label>
     </ion-tab-button>
   </ion-tab-bar>
 </ion-tabs>

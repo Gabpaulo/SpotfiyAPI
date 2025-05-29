@@ -1,13 +1,15 @@
+
 import { Component, OnInit }        from '@angular/core';
 import { Router }                   from '@angular/router';
 import { SpotifyService }           from '../../services/spotify.service';
 import { PlaybackService }          from '../../services/playback.service';
+import { LibraryItem }              from '../../models/library-item';
 
 @Component({
   selector: 'app-search',
   templateUrl: './search.page.html',
   styleUrls: ['./search.page.scss'],
-  standalone:false
+  standalone: false
 })
 export class SearchPage implements OnInit {
   query = '';
@@ -34,13 +36,17 @@ export class SearchPage implements OnInit {
   }
 
   playTrack(track: any) {
-    this.playback.play({
-      id:        track.id,
-      type:      'spotify',
-      uri:       track.uri,
-      name:      track.name,
-      artists:   track.artists.map((a: any) => a.name),
-      thumbnail: track.album.images[0]?.url
-    });
+    const queue: LibraryItem[] = this.tracks.map(t => ({
+      id:        t.id,
+      type:      t.preview_url ? 'preview' : 'spotify',
+      url:       t.preview_url,
+      uri:       t.uri,
+      name:      t.name,
+      artists:   t.artists.map((a: any) => a.name),
+      thumbnail: t.album.images[0]?.url
+    }));
+
+    const startIndex = queue.findIndex(item => item.id === track.id);
+    this.playback.setQueue(queue, startIndex);
   }
 }

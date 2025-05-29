@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TabsPageRoutingModule } from './tabs-routing.module';
 import { TabsPage } from './tabs.page';
-import { MiniPlayerComponent } from 'src/app/components/mini-player/mini-player.component';
+
 
 @NgModule({
   imports: [
@@ -14,6 +14,6 @@ import { MiniPlayerComponent } from 'src/app/components/mini-player/mini-player.
     TabsPageRoutingModule,
 
   ],
-  declarations: [TabsPage,MiniPlayerComponent]
+  declarations: [TabsPage]
 })
 export class TabsPageModule {}

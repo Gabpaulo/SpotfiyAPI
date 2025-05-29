@@ -1,6 +1,6 @@
 export interface LibraryItem {
   id: string;
-  type: 'local'|'spotify';
+  type: 'local'|'spotify'|'preview';
   name: string;
   url?: string;
   uri?: string;

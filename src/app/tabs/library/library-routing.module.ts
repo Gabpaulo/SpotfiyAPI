@@ -1,8 +1,6 @@
-// src/app/tabs/library/library-routing.module.ts
-
-import { NgModule }       from '@angular/core';
+import { NgModule }             from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { LibraryPage }    from './library.page';
+import { LibraryPage }          from './library.page';
 
 const routes: Routes = [
   {
@@ -10,7 +8,14 @@ const routes: Routes = [
     component: LibraryPage
   },
   {
-    // nested under /tabs/library/folder/:id
+    // clicking “Local Music” goes here
+    path: 'local',
+    loadChildren: () =>
+      import('../../pages/local-music/local-music.module')
+        .then(m => m.LocalMusicPageModule)
+  },
+  {
+    // existing folder‐detail route
     path: 'folder/:id',
     loadChildren: () =>
       import('../../pages/folder-detail/folder-detail.module')

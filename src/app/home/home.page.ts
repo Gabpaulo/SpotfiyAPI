@@ -17,8 +17,9 @@ export class HomePage implements OnInit {
   ) {}
 
   async ngOnInit() {
-    // If we already have a token, skip straight to /tabs
+
     await this.plt.ready();
+    
     if (localStorage.getItem('access_token')) {
       this.router.navigateByUrl('/tabs');
     }

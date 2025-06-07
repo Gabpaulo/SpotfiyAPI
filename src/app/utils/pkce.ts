@@ -1,8 +1,8 @@
-// src/app/utils/pkce.ts
+
 import * as CryptoJS from 'crypto-js';
 
 export function generateCodeVerifier(): string {
-  // 32 random bytes → 64 hex chars (allowed A-F0-9 are valid URL-safe chars)
+  // 32 random bytes  64 hex chars 
   const arr = window.crypto.getRandomValues(new Uint8Array(32));
   return Array.from(arr)
     .map(b => ('0' + b.toString(16)).slice(-2))

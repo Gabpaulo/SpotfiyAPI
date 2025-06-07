@@ -1,8 +1,7 @@
-// src/app/services/playback.service.ts
 import { Injectable, NgZone } from '@angular/core';
-import { BehaviorSubject }    from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { SpotifyPlayerService } from './spotify-player.service';
-import { LibraryItem }        from '../models/library-item';
+import { LibraryItem } from '../models/library-item';
 
 @Injectable({ providedIn: 'root' })
 export class PlaybackService {
@@ -11,7 +10,6 @@ export class PlaybackService {
   position$     = new BehaviorSubject<number>(0);
   duration$     = new BehaviorSubject<number>(0);
 
-  private audio = new Audio();
   private queue: LibraryItem[] = [];
   private index = -1;
 
@@ -19,32 +17,20 @@ export class PlaybackService {
     private zone: NgZone,
     private spotifySDK: SpotifyPlayerService
   ) {
-    // ── Initialize & transfer playback to the Web SDK device once ──
+    // Initialize Spotify Web Playback SDK
     this.spotifySDK.init().catch(err =>
       console.error('Failed to init Spotify SDK:', err)
     );
 
-    // ── Local HTML5 audio events (for fallback or local files) ──
-    this.audio.addEventListener('timeupdate', () =>
-      this.zone.run(() => this.position$.next(this.audio.currentTime))
-    );
-    this.audio.addEventListener('loadedmetadata', () =>
-      this.zone.run(() => this.duration$.next(this.audio.duration))
-    );
-    this.audio.addEventListener('ended', () => {
-      this.zone.run(() => this.isPlaying$.next(false));
-      this.next();
-    });
-
-    // ── Spotify SDK events ──
+    // Subscribe to Spotify playback state
     this.spotifySDK.position$.subscribe(ms =>
       this.zone.run(() => this.position$.next(ms / 1000))
     );
     this.spotifySDK.duration$.subscribe(ms =>
       this.zone.run(() => this.duration$.next(ms / 1000))
     );
-    this.spotifySDK.isPlaying$.subscribe(p =>
-      this.zone.run(() => this.isPlaying$.next(p))
+    this.spotifySDK.isPlaying$.subscribe(playing =>
+      this.zone.run(() => this.isPlaying$.next(playing))
     );
   }
 
@@ -55,40 +41,27 @@ export class PlaybackService {
     this.play(this.queue[this.index]);
   }
 
-  /** Play the given item on the already‐transferred SDK device */
+  /** Play the given Spotify item */
   async play(item: LibraryItem) {
     const idx = this.queue.findIndex(x => x.id === item.id);
     this.index = idx >= 0 ? idx : 0;
     this.currentTrack$.next(item);
 
     if (item.type === 'spotify' && item.uri) {
-      // ← No more init() here, just play on the same device
       await this.spotifySDK.playUri(item.uri);
       this.zone.run(() => this.isPlaying$.next(true));
-    } else if (item.url) {
-      // fallback for preview/local URLs (if you still need it)
-      this.audio.src = item.url;
-      this.audio.load();
-      await this.audio.play();
-      this.zone.run(() => this.isPlaying$.next(true));
+    } else {
+      console.warn('Unsupported item type for playback:', item);
     }
   }
 
   pause() {
-    if (this.currentTrack$.value?.type === 'spotify') {
-      this.spotifySDK.pause();
-    } else {
-      this.audio.pause();
-    }
+    this.spotifySDK.pause();
     this.zone.run(() => this.isPlaying$.next(false));
   }
 
   resume() {
-    if (this.currentTrack$.value?.type === 'spotify') {
-      this.spotifySDK.resume();
-    } else {
-      this.audio.play();
-    }
+    this.spotifySDK.resume();
     this.zone.run(() => this.isPlaying$.next(true));
   }
 
@@ -97,14 +70,11 @@ export class PlaybackService {
   }
 
   seek(sec: number) {
-    if (this.currentTrack$.value?.type === 'spotify') {
-      this.spotifySDK.seek(sec * 1000);
-    } else {
-      this.audio.currentTime = sec;
-    }
+    this.spotifySDK.seek(sec * 1000);
     this.zone.run(() => this.position$.next(sec));
   }
 
+  /** Play a random next track in the queue */
   next() {
     const len = this.queue.length;
     if (len > 1) {
@@ -117,6 +87,7 @@ export class PlaybackService {
     }
   }
 
+  /** Play the previous track in the queue */
   previous() {
     if (this.index > 0) {
       this.index--;

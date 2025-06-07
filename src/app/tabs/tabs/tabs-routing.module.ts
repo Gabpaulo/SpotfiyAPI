@@ -33,6 +33,10 @@ const routes: Routes = [
         loadChildren: () =>
           import('../settings/settings.module').then(m => m.SettingsPageModule)
       },
+  {
+    path: 'local-music',
+    loadChildren: () => import('../../pages/local-music/local-music.module').then( m => m.LocalMusicPageModule)
+  },
 
       // default for tabs
       { path: '', redirectTo: 'search', pathMatch: 'full' }

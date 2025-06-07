@@ -1,13 +1,43 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>local-music</ion-title>
+    <ion-title>Local Music</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" class="ion-padding">
+  <!-- Refresh button (in case you add/remove songs externally) -->
+  <ion-button expand="full" (click)="scanMusicFolder()">
+    <ion-icon slot="start" name="refresh"></ion-icon>
+    Refresh Music List
+  </ion-button>
+
+  <!-- List all found tracks -->
+  <ion-list *ngIf="tracks.length > 0" style="margin-top: 1rem;">
+    <ion-list-header>
+      Music Files
+    </ion-list-header>
+    <ion-item *ngFor="let t of tracks">
+      <ion-label>{{ t.name }}</ion-label>
+      <ion-button fill="clear" slot="end" (click)="playTrack(t)">
+        <ion-icon slot="icon-only" name="play"></ion-icon>
+      </ion-button>
+    </ion-item>
+  </ion-list>
+
+  <!-- Now playing / pause controls -->
+  <div *ngIf="currentTrack" style="margin-top: 1rem;">
+    <p><strong>Now Playing:</strong> {{ currentTrack.name }}</p>
+    <ion-button (click)="pauseAudio()">
+      <ion-icon slot="icon-only" name="pause"></ion-icon>
+    </ion-button>
+  </div>
+
+  <!-- Hidden audio element for playback -->
+  <audio #audioPlayer></audio>
+
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">local-music</ion-title>
+      <ion-title size="large">Local Music</ion-title>
     </ion-toolbar>
   </ion-header>
 </ion-content>

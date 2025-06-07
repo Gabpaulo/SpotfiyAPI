@@ -16,8 +16,8 @@ export class SpotifyPlayerService {
 
   isReady$   = new BehaviorSubject<boolean>(false);
   isPlaying$ = new BehaviorSubject<boolean>(false);
-  position$  = new BehaviorSubject<number>(0); // ms
-  duration$  = new BehaviorSubject<number>(0); // ms
+  position$  = new BehaviorSubject<number>(0);
+  duration$  = new BehaviorSubject<number>(0); 
 
   async init() {
     const token = localStorage.getItem('access_token');
@@ -29,19 +29,19 @@ export class SpotifyPlayerService {
       window.onSpotifyWebPlaybackSDKReady = () => resolve();
     });
 
-    // 2) Instantiate the player
+    
     this.player = new window.Spotify.Player({
       name: 'Ionic Web Playback SDK',
       getOAuthToken: (cb: (t: string) => void): void => cb(token),
       volume: 0.8
     });
 
-    // 3) Attach error handlers
+  
     this.player.addListener('authentication_error', ({ message }: any) => console.error('Auth Error:', message));
     this.player.addListener('account_error',        ({ message }: any) => console.error('Account Error:', message));
     this.player.addListener('playback_error',       ({ message }: any) => console.error('Playback Error:', message));
 
-    // 4) Track state changes
+    // 2) Handle player state changes
     this.player.addListener('player_state_changed', (state: any) => {
       if (!state) return;
       this.isPlaying$.next(!state.paused);
@@ -78,7 +78,7 @@ export class SpotifyPlayerService {
     await this.player.connect();
   }
 
-  /** Play a full track URI via the SDK */
+  
   async playUri(uri: string) {
     if (!this.deviceId) throw new Error('Player not ready');
     const token = localStorage.getItem('access_token');
@@ -97,6 +97,6 @@ export class SpotifyPlayerService {
 
   pause()  { this.player.pause(); }
   resume() { this.player.resume(); }
-  /** Seek to a position (ms) */
+
   seek(positionMs: number) { this.player.seek(positionMs); }
 }

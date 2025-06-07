@@ -13,7 +13,7 @@ export class AuthService {
   private authUrl     = 'https://accounts.spotify.com/authorize';
   private tokenUrl    = 'https://accounts.spotify.com/api/token';
 
-  // ⚠️ Added 'streaming' here
+
   private scopes = [
     'streaming',
     'user-read-playback-state',
@@ -32,12 +32,12 @@ export class AuthService {
       client_id:             this.clientId,
       response_type:         'code',
       redirect_uri:          this.redirectUri,
-      scope:                 this.scopes,             // ← use the new scopes string
+      scope:                 this.scopes,             
       code_challenge_method: 'S256',
       code_challenge:        challenge
     });
 
-    // e.g. https://accounts.spotify.com/authorize?client_id=…&scope=streaming%20…
+
     const url = `${this.authUrl}?${params.toString()}`;
 
     await Browser.open({ url });

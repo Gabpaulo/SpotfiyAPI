@@ -17,15 +17,13 @@ const routes: Routes = [
     loadChildren: () => import('./tabs/settings/settings.module').then(m => m.SettingsPageModule)
   },
   // 5) Folders list (if you want it top-level)
-  { path: 'folders',
-    loadChildren: () => import('./pages/folders/folders.module').then(m => m.FoldersPageModule)
-  },
   // 6) **Parameterized** folder-detail route
   { path: 'folder-detail/:id',
     loadChildren: () => import('./pages/folder-detail/folder-detail.module').then(m => m.FolderDetailPageModule)
   },
   // 7) Now the wildcard — **last** in the list
-  { path: '**', redirectTo: 'home' },  {
+  { path: '**', redirectTo: 'home' },
+  {
     path: 'local-music',
     loadChildren: () => import('./pages/local-music/local-music.module').then( m => m.LocalMusicPageModule)
   },

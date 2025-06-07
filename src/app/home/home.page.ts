@@ -20,9 +20,6 @@ export class HomePage implements OnInit {
 
     await this.plt.ready();
     
-    if (localStorage.getItem('access_token')) {
-      this.router.navigateByUrl('/tabs');
-    }
   }
 
   login() {

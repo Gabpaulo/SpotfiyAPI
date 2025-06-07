@@ -1,4 +1,3 @@
-
 <ion-header [translucent]="true" class="folders-header">
   <ion-toolbar>
     <ion-title>
@@ -17,9 +16,31 @@
 </ion-header>
 
 <ion-content class="folders-content">
+  <!-- Static "Local Music" folder item -->
+  <ion-list class="folders-list">
+    <ion-item
+      routerLink="local-music"
+      lines="none"
+      button
+      class="folder-item"
+    >
+      <div slot="start" class="folder-icon-container">
+        <ion-icon name="musical-notes" class="folder-icon"></ion-icon>
+      </div>
+      <ion-label class="folder-info">
+        <h2 class="folder-name">Local Music</h2>
+        <p class="folder-subtitle">Your device’s songs</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <!-- Existing dynamic folder list (if any) -->
   <div class="folders-container" *ngIf="folders?.length; else emptyState">
     <div class="folders-header-info">
-      <h3>{{ folders.length }} {{ folders.length === 1 ? 'folder' : 'folders' }}</h3>
+      <h3>
+        {{ folders.length }} 
+        {{ folders.length === 1 ? 'folder' : 'folders' }}
+      </h3>
     </div>
     
     <ion-list class="folders-list">
@@ -28,30 +49,30 @@
         *ngFor="let f of folders"
         (click)="openFolder(f)"
         lines="none"
-        button>
-        
+        button
+      >
         <div slot="start" class="folder-icon-container">
           <ion-icon name="folder" class="folder-icon"></ion-icon>
         </div>
-        
         <ion-label class="folder-info">
           <h2 class="folder-name">{{ f.name }}</h2>
           <p class="folder-subtitle">Playlist folder</p>
         </ion-label>
-        
         <ion-buttons slot="end" class="folder-actions">
           <ion-button 
             fill="clear" 
             class="action-btn edit-btn"
             (click)="renameFolder(f); $event.stopPropagation()"
-            aria-label="Rename folder">
+            aria-label="Rename folder"
+          >
             <ion-icon name="create"></ion-icon>
           </ion-button>
           <ion-button 
             fill="clear" 
             class="action-btn delete-btn"
             (click)="deleteFolder(f); $event.stopPropagation()"
-            aria-label="Delete folder">
+            aria-label="Delete folder"
+          >
             <ion-icon name="trash"></ion-icon>
           </ion-button>
         </ion-buttons>
@@ -59,6 +80,7 @@
     </ion-list>
   </div>
 
+  <!-- Empty-state when there are no user-created folders -->
   <ng-template #emptyState>
     <div class="empty-state">
       <div class="empty-icon-container">
@@ -70,13 +92,13 @@
         (click)="createFolder()" 
         class="create-first-folder-btn"
         expand="block"
-        fill="solid">
+        fill="solid"
+      >
         <ion-icon name="add-circle" slot="start"></ion-icon>
         Create Folder
       </ion-button>
     </div>
   </ng-template>
-
-
 </ion-content>
-  <app-mini-player></app-mini-player>
+
+<app-mini-player></app-mini-player>

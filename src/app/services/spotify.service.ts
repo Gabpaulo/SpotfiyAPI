@@ -16,7 +16,7 @@ export class SpotifyService {
     return new HttpHeaders({ Authorization: `Bearer ${token}` });
   }
 
-  /** Search tracks by query */
+ 
   searchTracks(query: string): Observable<any> {
     return this.http.get(`${this.API}/search`, {
       headers: this.headers,

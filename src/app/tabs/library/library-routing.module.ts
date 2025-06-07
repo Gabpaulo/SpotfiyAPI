@@ -9,7 +9,7 @@ const routes: Routes = [
   },
   {
     // clicking “Local Music” goes here
-    path: 'local',
+    path: 'local-music',
     loadChildren: () =>
       import('../../pages/local-music/local-music.module')
         .then(m => m.LocalMusicPageModule)
